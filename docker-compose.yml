@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  semgress-waf:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      # Override config.yaml to point to Docker-internal networks
+      - UPSTREAM_URL=http://backend-api:80
+      - REDIS_URL=redis://redis-cache:6379/0
+    depends_on:
+      - redis-cache
+      - backend-api
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  redis-cache:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  backend-api:
+    image: kennethreitz/httpbin
+    expose:
+      - "80"

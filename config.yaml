@@ -1,0 +1,19 @@
+server:
+  host: "0.0.0.0"
+  port: 8000
+
+upstream:
+  url: "https://httpbin.org"
+
+waf:
+  model_id: "Qwen/Qwen3-1.7B"
+  risk_threshold: 0.35
+  max_batch_size: 32
+  batch_timeout_ms: 5
+
+redis:
+  url: "redis://localhost:6379/0" # Will be overridden by Docker Compose
+  cache_ttl_seconds: 3600         # Cache attacks for 1 hour
+
+rate_limiter:
+  requests_per_second: 50         # Global limit per IP

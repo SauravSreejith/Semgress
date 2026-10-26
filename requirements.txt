@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+httpx
+torch
+transformers
+accelerate
+redis
+locust
+pyyaml
